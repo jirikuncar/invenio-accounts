@@ -38,9 +38,6 @@
   {%- for session in sessions %}
   {%- set is_current_sid = is_current(session.sid_s) %}
   {%- set form = formclass(sid_s=session.sid_s) %}
-  {%- set browser_text = '{0} {1} on {2}'.format(
-            session.browser, session.browser_version, session.operative_system)
-            if session.browser else '' %}
   <div class="row record-elem">
     <div class="col-xs-1">
       {%- if is_current_sid %}
@@ -56,10 +53,9 @@
         {{session.created | tousertimezone | dateformat}}
         {% if is_current_sid %}<span class="text-muted">({{_("current session")}})</span>{% endif %}
         {%- if session.browser %}
-        <br>{{'{0} {1} on {2} ({3})'.format(
-          session.browser, session.browser_version, session.operative_system,
-          session.device)
-          }}
+        <br>{{ _('%(browser)s %(browser_version)s on %(operative_system)s (%(device)s)',
+          browser=session.browser, browser_version=session.browser_version, 
+          operative_system=session.operative_system, device=session.device) }}
         {%- endif %}
         {%- if session.country %}
           <br>{{_('Location')}}: {{session.country}}
